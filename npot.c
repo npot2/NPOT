@@ -2,6 +2,20 @@
 #include <stdlib.h>
 
 int npot(int n);
+int npof(int n);
+
+int npot(int n)
+{
+	if (n < 0) return 1;
+	return (n & (n - 1));
+}
+
+int npof(int n)
+{
+	if (n < 0) return 1;
+	// 0xAAAAAAAA = 0b10101010101010101010101010101010
+	return ((n & (n - 1)) || (n & 0xAAAAAAAA));
+}
 
 int main(int argc, char *argv[]) 
 {
@@ -14,19 +28,20 @@ int main(int argc, char *argv[])
 	
 	n = atoi(*(argv + 1));
 	
+	printf("%d is ", n);
 	if (npot(n)) {
-		printf("%d is NPOT\n", n);
+		printf("NPOT");
 	} else {
-		printf("%d is POT\n", n);
+		printf("POT");
 	}
 	
+	printf(", ");
+	if (npof(n)) {
+		printf("NPOF");
+	} else {
+		printf("POF");
+	}
+	
+	printf("\n");
 	return 0;
 }
-
-
-int npot(int n)
-{
-	if (n < 0) return 1;
-	return (n & (n - 1));
-}
-
